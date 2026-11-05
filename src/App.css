@@ -1,0 +1,140 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Roboto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 0px 2px 5px #ccc;
+}
+.header h1 {
+  font-size: 22px;
+}
+.cart-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cart-count {
+  background: orange;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 14px;
+  margin: 0;
+}
+.tabs-container {
+  display: flex;
+  list-style: none;
+  overflow-x: auto;
+  padding: 0;
+  box-shadow: 0px 2px 5px #eee;
+}
+.tab-btn {
+  border: none;
+  background: transparent;
+  padding: 12px 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 16px;
+}
+.active-tab {
+  color: orange;
+  border-bottom: 3px solid orange;
+}
+.dishes-list {
+  list-style: none;
+  padding: 0;
+}
+.dish-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #eee;
+  box-shadow: 0px 2px 5px #eee;
+  margin: 10px;
+  padding: 15px;
+}
+.dish-name {
+  font-size: 18px;
+}
+.dish-price {
+  color: #555;
+  font-weight: bold;
+}
+.dish-desc {
+  color: #888;
+  font-size: 14px;
+}
+.dish-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.calories {
+  color: orange;
+  font-weight: bold;
+}
+.dish-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.quantity-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.add-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 140px;
+}
+.counter {
+  background-color: green;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 120px;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 5px;
+}
+.counter button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+.counter p {
+  margin: 0;
+}
+.custom-text {
+  color: blue;
+}
+.not-available {
+  color: red;
+}
+.veg {
+  color: green;
+  border: 1px solid green;
+  padding: 2px 6px;
+}
+.non-veg {
+  color: red;
+  border: 1px solid red;
+  padding: 2px 6px;
+}

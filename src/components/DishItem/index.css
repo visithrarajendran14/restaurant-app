@@ -1,0 +1,10 @@
+.dish-card {
+  display: flex;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+}
+.dish-img {
+  width: 80px;
+  height: 80px;
+}
