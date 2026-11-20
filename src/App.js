@@ -1,31 +1,15 @@
-import {Component} from 'react'
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {Component} from 'react'
 import Login from './components/Login'
 import Home from './components/Home'
 import Cart from './components/Cart'
 import ProtectedRoute from './components/ProtectedRoute'
 import CartContext from './context/CartContext'
-import './App.css'
 
 class App extends Component {
   state = {cartList: []}
 
-  addCartItem = item => {
-    const {cartList} = this.state
-    const existing = cartList.find(each => each.dish_id === item.dish_id)
-    if (existing) {
-      this.setState(prev => ({
-        cartList: prev.cartList.map(each => {
-          if (each.dish_id === item.dish_id) {
-            return {...each, quantity: each.quantity + item.quantity}
-          }
-          return each
-        }),
-      }))
-    } else {
-      this.setState(prev => ({cartList: [...prev.cartList, item]}))
-    }
-  }
+  removeAllCartItems = () => this.setState({cartList: []})
 
   removeCartItem = id => {
     this.setState(prev => ({
@@ -33,28 +17,42 @@ class App extends Component {
     }))
   }
 
-  removeAllCartItems = () => this.setState({cartList: []})
+  addCartItem = dish => {
+    const {cartList} = this.state
+    const isThere = cartList.find(each => each.dish_id === dish.dish_id)
+    if (isThere) {
+      this.setState(prev => ({
+        cartList: prev.cartList.map(each =>
+          each.dish_id === dish.dish_id
+            ? {...each, quantity: each.quantity + dish.quantity}
+            : each,
+        ),
+      }))
+    } else {
+      this.setState(prev => ({cartList: [...prev.cartList, dish]}))
+    }
+  }
 
   incrementCartItemQuantity = id => {
     this.setState(prev => ({
-      cartList: prev.cartList.map(each => {
-        if (each.dish_id === id) {
-          return {...each, quantity: each.quantity + 1}
-        }
-        return each
-      }),
+      cartList: prev.cartList.map(each =>
+        each.dish_id === id ? {...each, quantity: each.quantity + 1} : each,
+      ),
     }))
   }
 
   decrementCartItemQuantity = id => {
-    this.setState(prev => ({
-      cartList: prev.cartList.map(each => {
-        if (each.dish_id === id) {
-          return {...each, quantity: each.quantity - 1}
-        }
-        return each
-      }),
-    }))
+    const {cartList} = this.state
+    const item = cartList.find(each => each.dish_id === id)
+    if (item.quantity === 1) {
+      this.removeCartItem(id)
+    } else {
+      this.setState(prev => ({
+        cartList: prev.cartList.map(each =>
+          each.dish_id === id ? {...each, quantity: each.quantity - 1} : each,
+        ),
+      }))
+    }
   }
 
   render() {
@@ -75,12 +73,11 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <ProtectedRoute exact path="/" component={Home} />
             <ProtectedRoute exact path="/cart" component={Cart} />
-            <Redirect to="/login" />
+            <Redirect to="/" />
           </Switch>
         </CartContext.Provider>
       </BrowserRouter>
     )
   }
 }
-
 export default App

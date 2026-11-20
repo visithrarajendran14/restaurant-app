@@ -1,36 +1,27 @@
+/* eslint-disable camelcase */
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
 import Header from '../Header'
 import DishItem from '../DishItem'
-import CartContext from '../../context/CartContext'
 import './index.css'
 
 class Home extends Component {
-  state = {isLoading: true, restaurantData: {}, activeCategory: ''}
+  state = {isLoading: true, restaurantData: {}, activeTab: 0}
 
   componentDidMount() {
     this.getData()
   }
 
   getData = async () => {
-    const response = await fetch(
-      'https://apis.ccbp.in/restaurants-app/restaurants-menu/',
+    const res = await fetch(
+      'https://apis2.ccbp.in/restaurant-app/restaurant-menu',
     )
-    const data = await response.json()
-    const restaurant = Array.isArray(data) ? data[0] : data
-    this.setState({
-      restaurantData: restaurant,
-      isLoading: false,
-      activeCategory: restaurant.table_menu_list[0].menu_category,
-    })
-  }
-
-  onChangeCategory = category => {
-    this.setState({activeCategory: category})
+    const data = await res.json()
+    this.setState({restaurantData: data[0], isLoading: false})
   }
 
   render() {
-    const {isLoading, restaurantData, activeCategory} = this.state
+    const {isLoading, restaurantData, activeTab} = this.state
     if (isLoading) {
       return (
         <div data-testid="loader">
@@ -38,45 +29,30 @@ class Home extends Component {
         </div>
       )
     }
-    const activeMenu = restaurantData.table_menu_list.find(
-      each => each.menu_category === activeCategory,
-    )
+    const {restaurant_name, table_menu_list} = restaurantData
     return (
-      <CartContext.Consumer>
-        {value => {
-          const {cartList} = value
-          let count = 0
-          cartList.forEach(each => {
-            count += each.quantity
-          })
-          return (
-            <>
-              <Header />
-              <h1>{restaurantData.restaurant_name}</h1>
-              <p>{restaurantData.restaurant_image}</p>
-              <ul>
-                {restaurantData.table_menu_list.map(each => (
-                  <li key={each.menu_category}>
-                    <button
-                      type="button"
-                      onClick={() => this.onChangeCategory(each.menu_category)}
-                    >
-                      {each.menu_category}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                {activeMenu.category_dishes.map(dish => (
-                  <DishItem key={dish.dish_id} dish={dish} />
-                ))}
-              </ul>
-            </>
-          )
-        }}
-      </CartContext.Consumer>
+      <>
+        <Header />
+        <h1>{restaurant_name}</h1>
+        <ul>
+          {table_menu_list.map((each, index) => (
+            <li key={each.menu_category_id}>
+              <button
+                type="button"
+                onClick={() => this.setState({activeTab: index})}
+              >
+                {each.menu_category}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <ul>
+          {table_menu_list[activeTab].category_dishes.map(each => (
+            <DishItem key={each.dish_id} dish={each} />
+          ))}
+        </ul>
+      </>
     )
   }
 }
-
 export default Home

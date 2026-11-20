@@ -7,24 +7,26 @@ class DishItem extends Component {
   state = {quantity: 0}
 
   onIncrease = () => {
-    const {dish} = this.props
     this.setState(
       prev => ({quantity: prev.quantity + 1}),
       () => {
+        const {dish} = this.props
         const {quantity} = this.state
+        const {addCartItem, incrementCartItemQuantity} = this.context
         if (quantity === 1) {
-          const {addCartItem} = this.context
           addCartItem({...dish, quantity: 1})
+        } else {
+          incrementCartItemQuantity(dish.dish_id)
         }
       },
     )
   }
 
   onDecrease = () => {
-    const {dish} = this.props
     this.setState(
       prev => ({quantity: prev.quantity - 1}),
       () => {
+        const {dish} = this.props
         const {quantity} = this.state
         const {removeCartItem, decrementCartItemQuantity} = this.context
         if (quantity === 0) {
@@ -50,7 +52,6 @@ class DishItem extends Component {
       dish_Type,
       addonCat,
     } = dish
-
     return (
       <li>
         <div>
@@ -60,7 +61,7 @@ class DishItem extends Component {
           </p>
           <p>{dish_description}</p>
           <p>{dish_calories} calories</p>
-          {dish_Type === 1 ? <p>Veg</p> : <p>Non-Veg</p>}
+          {dish_Type === 2 ? <p>Non-Veg</p> : <p>Veg</p>}
           {dish_Availability ? (
             <div>
               {quantity === 0 ? (
@@ -89,6 +90,5 @@ class DishItem extends Component {
     )
   }
 }
-
 DishItem.contextType = CartContext
 export default DishItem

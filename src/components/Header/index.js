@@ -1,5 +1,6 @@
 import {Link, withRouter} from 'react-router-dom'
 import Cookies from 'js-cookie'
+import {AiOutlineShoppingCart} from 'react-icons/ai'
 import CartContext from '../../context/CartContext'
 import './index.css'
 
@@ -9,29 +10,25 @@ const Header = props => {
     const {history} = props
     history.replace('/login')
   }
-
   return (
     <CartContext.Consumer>
       {value => {
         const {cartList} = value
-        let count = 0
-        cartList.forEach(each => {
-          count += each.quantity
-        })
+        const count = cartList.reduce((a, b) => a + b.quantity, 0)
         return (
-          <nav className="header-container">
-            <Link to="/" className="logo-link">
-              <h1 className="logo">UNI Resto Cafe</h1>
+          <nav>
+            <Link to="/">
+              <h1>UNI Resto Cafe</h1>
             </Link>
-            <div className="header-right">
-              <p className="my-orders">My Orders</p>
+            <div>
+              <p>My Orders</p>
               <Link to="/cart">
-                <button type="button" data-testid="cart" className="cart-btn">
-                  Cart
+                <button type="button" data-testid="cart">
+                  <AiOutlineShoppingCart size={25} />
+                  {count}
                 </button>
               </Link>
-              <p className="cart-count">{count}</p>
-              <button type="button" onClick={onLogout} className="logout-btn">
+              <button type="button" onClick={onLogout}>
                 Logout
               </button>
             </div>
@@ -41,5 +38,4 @@ const Header = props => {
     </CartContext.Consumer>
   )
 }
-
 export default withRouter(Header)

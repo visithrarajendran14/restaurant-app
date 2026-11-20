@@ -1,48 +1,47 @@
+/* eslint-disable camelcase */
 import CartContext from '../../context/CartContext'
-import './index.css'
 
-const CartItem = props => (
-  <CartContext.Consumer>
-    {value => {
-      const {item} = props
-      const {
-        incrementCartItemQuantity,
-        decrementCartItemQuantity,
-        removeCartItem,
-      } = value
-      const onInc = () => incrementCartItemQuantity(item.dish_id)
-      const onDec = () => {
-        if (item.quantity === 1) {
-          removeCartItem(item.dish_id)
-        } else {
-          decrementCartItemQuantity(item.dish_id)
-        }
-      }
-      return (
-        <li>
-          <img src={item.dish_image} alt={item.dish_name} />
-          <div>
-            <h1>{item.dish_name}</h1>
+const CartItem = props => {
+  const {dish} = props
+  const {dish_id, dish_name, dish_image, dish_price, dish_currency, quantity} =
+    dish
+  return (
+    <CartContext.Consumer>
+      {value => {
+        const {
+          incrementCartItemQuantity,
+          decrementCartItemQuantity,
+          removeCartItem,
+        } = value
+        return (
+          <li>
+            <img src={dish_image} alt={dish_name} />
+            <h1>{dish_name}</h1>
             <p>
-              {item.dish_currency} {item.dish_price}
+              {dish_currency} {dish_price}
             </p>
             <div>
-              <button type="button" onClick={onDec}>
+              <button
+                type="button"
+                onClick={() => decrementCartItemQuantity(dish_id)}
+              >
                 -
               </button>
-              <p>{item.quantity}</p>
-              <button type="button" onClick={onInc}>
+              <p>{quantity}</p>
+              <button
+                type="button"
+                onClick={() => incrementCartItemQuantity(dish_id)}
+              >
                 +
               </button>
             </div>
-            <button type="button" onClick={() => removeCartItem(item.dish_id)}>
+            <button type="button" onClick={() => removeCartItem(dish_id)}>
               Remove
             </button>
-          </div>
-        </li>
-      )
-    }}
-  </CartContext.Consumer>
-)
-
+          </li>
+        )
+      }}
+    </CartContext.Consumer>
+  )
+}
 export default CartItem

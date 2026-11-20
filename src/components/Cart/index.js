@@ -1,7 +1,6 @@
+import CartContext from '../../context/CartContext'
 import Header from '../Header'
 import CartItem from '../CartItem'
-import CartContext from '../../context/CartContext'
-import './index.css'
 
 const Cart = () => (
   <CartContext.Consumer>
@@ -11,13 +10,11 @@ const Cart = () => (
         return (
           <>
             <Header />
-            <div>
-              <img
-                src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-empty-cart-img.png"
-                alt="empty cart"
-              />
-              <p>Your cart is empty</p>
-            </div>
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-empty-cart-img.png"
+              alt="cart empty"
+            />
+            <p>Your cart is empty</p>
           </>
         )
       }
@@ -29,7 +26,7 @@ const Cart = () => (
           </button>
           <ul>
             {cartList.map(each => (
-              <CartItem key={each.dish_id} item={each} />
+              <CartItem key={each.dish_id} dish={each} />
             ))}
           </ul>
         </>
@@ -37,5 +34,4 @@ const Cart = () => (
     }}
   </CartContext.Consumer>
 )
-
 export default Cart
