@@ -1,10 +1,10 @@
-/* eslint-disable camelcase */
+/* eslint-disable */
 import CartContext from '../../context/CartContext'
+import './index.css'
 
 const CartItem = props => {
   const {dish} = props
-  const {dish_id, dish_name, dish_image, dish_price, dish_currency, quantity} =
-    dish
+
   return (
     <CartContext.Consumer>
       {value => {
@@ -13,29 +13,30 @@ const CartItem = props => {
           decrementCartItemQuantity,
           removeCartItem,
         } = value
+
         return (
           <li>
-            <img src={dish_image} alt={dish_name} />
-            <h1>{dish_name}</h1>
+            <img src={dish.dish_image} alt={dish.dish_name} />
+            <h1>{dish.dish_name}</h1>
             <p>
-              {dish_currency} {dish_price}
+              {dish.dish_currency} {dish.dish_price}
             </p>
             <div>
               <button
                 type="button"
-                onClick={() => decrementCartItemQuantity(dish_id)}
+                onClick={() => decrementCartItemQuantity(dish.dish_id)}
               >
                 -
               </button>
-              <p>{quantity}</p>
+              <p>{dish.quantity}</p>
               <button
                 type="button"
-                onClick={() => incrementCartItemQuantity(dish_id)}
+                onClick={() => incrementCartItemQuantity(dish.dish_id)}
               >
                 +
               </button>
             </div>
-            <button type="button" onClick={() => removeCartItem(dish_id)}>
+            <button type="button" onClick={() => removeCartItem(dish.dish_id)}>
               Remove
             </button>
           </li>
@@ -44,4 +45,5 @@ const CartItem = props => {
     </CartContext.Consumer>
   )
 }
+
 export default CartItem
